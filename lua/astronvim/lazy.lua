@@ -9,7 +9,7 @@ local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then -- TODO: REMOVE vim.loop WHEN DROPPING SUPPORT FOR Neovim v0.9
   local clone = { "git", "clone", modern_git and "--filter=blob:none" or nil }
   local output =
-    vim.fn.system(vim.list_extend(clone, { "--branch=stable", "https://github.com/folke/lazy.nvim.git", lazypath }))
+    vim.fn.system(vim.list_extend(clone, { "--branch=stable", "git@github.com:folke/lazy.nvim.git", lazypath }))
   if vim.api.nvim_get_vvar "shell_error" ~= 0 then
     vim.api.nvim_err_writeln("Error cloning lazy.nvim repository...\n\n" .. output)
   end
@@ -43,7 +43,7 @@ local colorscheme = astronvim.default_colorscheme and { astronvim.default_colors
 require("lazy").setup(astronvim.user_opts("lazy", {
   spec = spec,
   defaults = { lazy = true },
-  git = { filter = modern_git },
+  git = { url_format = "git@github.com:%s.git", filter = modern_git },
   install = { colorscheme = colorscheme },
   performance = {
     rtp = {
